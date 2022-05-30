@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ramen Ratings</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
+    />
+    <style>
+      
+    /* Nav */
+    ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #04AA6D;
+}
+
+
+    /* Nav End */
+    </style>
+  </head>
+  <body>
+    
+<ul>
+  <li><a class="active" href="/">Ramen Reviews</a></li>
+ 
+  <li style="float:right"><a href="/add">Add New Review</a></li>
+</ul>
+    <div style="margin-top: 50px" class="ui container">
+        <h1 class="ui center aligned header">Update Ramen Review</h1>
+      <form class="ui form" action="/update/{{review.ID}}" method="post">
+        <div class="field">
+          <label>Country</label>
+          <select required name="Country"> 
+            <option value="{{review.Country}}">{{review.Country}}</option>
+            {% for country in country_list %}
+            <option value="{{country}}">{{country}}</option>
+            {% endfor %}
+          </select>
+        <br />
+        </div>
+        <div class="field">
+          <label>Brand</label>
+          <input
+            type="text"
+            name="Brand"
+            value="{{review.Brand}}"
+            required
+          />
+          <br />
+        </div>
+        <div class="field">
+          <label>Type</label>
+          <input type="text" name="Type" value="{{review.Type}}" required /><br />
+        </div>
+        <div class="field">
+          <label>Package</label>
+          <select required name="Package"> 
+            <option value="{{review.Package}}">{{review.Package}}</option>
+            {% for package in packageList %}
+            <option value="{{package}}">{{package}}</option>
+            {% endfor %}
+          </select>
+         <br />
+        </div>
+        <div class="field">
+          <label>Rating</label>
+          <input
+            type="number"
+            min="0"
+            max="5"
+            value="{{review.Rating}}"
+            step="0.1"
+            name="Rating"
+            required
+          /><br />
+        </div>
+        <button class="ui blue button" type="submit">Update</button>
+      </form>
+  </body>
+</html>

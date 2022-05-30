@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ramen Ratings</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
+    />
+  
+    <style>
+      
+    /* Nav */
+    ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #04AA6D;
+}
+
+
+    /* Nav End */
+    </style>
+  </head>
+
+  <body>
+
+    
+<ul>
+  <li><a href="/">Ramen Reviews</a></li>
+ 
+  <li style="float:right"><a class="active" href="/add">Add New Review</a></li>
+</ul>
+    <div style="margin-top: 50px" class="ui container">
+        <h1 class="ui center aligned header">Add New Ramen Review</h1>
+      <form class="ui form" action="/add" method="post">
+        <div class="field">
+          <label>Country</label>
+          <select required required name="Country"> 
+            {% for country in country_list %}
+            <option value="{{country}}">{{country}}</option>
+            {% endfor %}
+          </select>
+          <br />
+        </div>
+        <div class="field">
+          <label>Brand</label>
+          <input
+            type="text"
+            name="Brand"
+            placeholder="Brand..."
+            required
+          /><br />
+        </div>
+        <div class="field">
+          <label>Type</label>
+          <input type="text" name="Type" placeholder="Type..." required /><br />
+        </div>
+        <div class="field">
+          <label>Package</label>
+          <select required name="Package">
+            <option value="Bar">Bar</option>
+            <option value="Bowl">Bowl</option>
+            <option value="Box">Box</option>
+            <option value="Can">Can</optn>
+            <option value="Cup">Cup</option>
+            <option value="Pack">Pack</optn>
+            <option value="Tray">Tray</option>
+          </select>
+          <br />
+        </div>
+        <div class="field">
+          <label>Rating (0 to 5 [Highest]) </label>
+          <input
+            type="number"
+            min="0"
+            max="5"
+            value="0"
+            step="0.1"
+            name="Rating"
+            placeholder="Rating..."
+            required
+          /><br />
+        </div>
+        <button class="ui blue button" type="submit">Add</button>
+      </form>
+  </body>
+</html>

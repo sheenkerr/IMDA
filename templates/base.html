@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ramen Reviews</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+  <style>
+
+    /* Nav */
+    ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #04AA6D;
+}
+    /* Nav End */
+ .data-table {
+  width: 96% !important;
+  /* margin: 1em auto !important; */
+  /* padding: 0.5em; */
+}
+
+/** Toggled */
+.hidden-row {
+  display: none;
+}
+  </style>
+  <body>
+    
+<ul>
+  <li><a class="active" href="/">Ramen Reviews</a></li>
+ 
+  <li style="float:right"><a href="/add">Add New Review</a></li>
+</ul>
+    <h1 class="ui center aligned header">Ramen Reviews</h1>
+   <hr/>
+    <div class="card data-table">
+  <table data-ignore-case="true" id="myTable" style="width:100%; margin: 1% 1%;">
+    <thead>
+      <tr>
+        <!-- <th class="input-cell">
+          <span class="table-head-label">ID</span>
+          <div class="input" onkeyup="filterTable()" onchange="filterTable()">
+            <input type="number" placeholder="Search" >
+          </div>
+        </th>  -->
+        <!-- <th class="input-cell">
+          <span class="table-head-label">Country</span>
+          <div class="input" onkeyup="filterTable()" onchange="filterTable()">
+            <input type="text" placeholder="Search">
+          </div>
+        </th> -->
+          <th class="input-cell" style="width: 10%;">
+          <span class="table-head-label">Country</span>
+          <div class="input input-dropdown">
+            <select id="countriesDropdown" oninput="filterTable()" onchange="filterTable()">
+              <option value="">All</option>
+              {% for country in country_list %}
+              <option value="{{country}}">{{country}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </th>
+        <th class="input-cell" style="width: 10%;">
+          <span class="table-head-label">Brand</span>
+          <div class="input" onkeyup="filterTable()" onchange="filterTable()">
+            <input type="text" placeholder="Search">
+          </div>
+        </th>
+        <!-- <th class="input-cell">
+          <span class="table-head-label">Brand</span>
+          <div class="input input-dropdown">
+            <select id="brandDropdown" onkeyup="filterTable()" onchange="filterTable()">
+              <option value="All">All</option>
+           <option value="Brand A">Brand A</option>
+           <option value="Brand B">Brand B</option>
+           <option value="Brand C">Brand C</option>
+           <option value="Brand D">Brand D</option>
+           <option value="Brand E">Brand E</option>   
+           <option value="Brand F">Brand F</option>
+           <option value="Brand G">Brand G</option>
+           <option value="Brand H">Brand H</option>
+           <option value="Brand I">Brand I</option>
+           <option value="Brand J">Brand J</option>
+            </select>
+          </div>
+        </th> -->
+        <th class="input-cell" style="width: 10%;">
+          <span class="table-head-label">Type</span>
+          <div class="input" onkeyup="filterTable()" onchange="filterTable()">
+            <input type="text" placeholder="Search">
+          </div>
+        </th>
+        <!-- <th class="input-cell">
+          <span class="table-head-label">Package</span>
+          <div class="input" onkeyup="filterTable()" onchange="filterTable()">
+            <input type="text" placeholder="Search">
+          </div>
+        </th> -->
+        <th class="input-cell" style="width: 5%;">
+          <span class="table-head-label">Package</span>
+          <div class="input" onkeyup="filterTable()" onchange="filterTable()">
+            <select id="packageDropdown" oninput="filterTable()" onchange="filterTable()">
+              <option value="">All</option>
+              <option value="Bar">Bar</option>
+              <option value="Bowl">Bowl</option>
+              <option value="Box">Box</option>
+              <option value="Can">Can</optn>
+              <option value="Cup">Cup</option>
+              <option value="Pack">Pack</optn>
+              <option value="Tray">Tray</option>
+              <!-- <option value="NIL">NIL</option> -->
+            </select>
+          </div>
+        </th>
+       
+        <th class="input-cell" style="width: 3%;">
+          <span class="table-head-label">Rating(/5.0)</span>
+          <div class="input" onkeyup="filterTable()" onchange="filterTable()">
+            <input type="number" placeholder="Search" min="0" max="5" step="0.1">
+          </div>
+        </th>
+        <!-- <th class="input-cell">
+          <span class="table-head-label">Completed?</span>
+          <div class="input" onkeyup="filterTable()" onchange="filterTable()">
+            <select id="completedDropdown" oninput="filterTable()" onchange="filterTable()">
+              <option value="">Both Completed & Uncompleted Reviews</option>
+              <option value="True">Completed Reviews Only</option>
+              <option value="False">Uncompleted Reviews Only</option>
+            </select>
+          </div>
+        </th> -->
+         <th class="input-cell" style="width: 10%;">
+          <span class="table-head-label">Actions</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+       {% for review in reviews_list %}
+      <tr>
+        <!-- <td>{{ review.ID }}</td> -->
+        <td>{{ review.Country }}</td>
+        <td>{{review.Brand }}</td>
+        <td>{{review.Type }}</td>
+        <td>{{review.Package }}</td>
+        <td>{{ review.Rating }}</td>
+        <!-- <td>{{ review.Complete }}</td> -->
+        <td>
+          <a class="ui blue button" href="/update/{{ review.ID }}">Update</a>
+          <a class="ui red button" href="/delete/{{ review.ID }}">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+      
+    <script>
+
+function filterTable() {
+    const query = q => document.querySelectorAll(q);
+    // Outputs inputs by user in an array [ID,Brand,Type,Package,Rating]
+    const searchFilters = [...query('th input')].map(e => new RegExp(e.value, 'i')); 
+    const dropDownFilters = [...query('th select')].map(e => new RegExp(e.value, 'i')); 
+    
+    var filter = []
+    console.log(filter)
+
+  
+  filter.push(dropDownFilters[0],searchFilters[0],searchFilters[1],dropDownFilters[1],searchFilters[2])
+console.log(filter)
+    query('tbody tr').forEach(row => row.style.display = 
+    filter.every((f, i) => f.test(row.cells[i].textContent)) ? '' : 'none');
+  }
+
+//   document.querySelectorAll('.input').forEach(el => {
+//   el.querySelectorAll('input').forEach(x => x.addEventListener('keyup', filterTable));
+//   el.querySelectorAll('*').forEach(x => x.addEventListener('change', filterTable));
+// });
+
+// function filterTable(e) {
+//   let table = findParentBySelector(e.target, 'table'),
+//     caseInsensitive = table.getAttribute('data-ignore-case') === 'true',
+//     terms = [].slice.call(table.querySelectorAll('.input')).map(el => {
+//       let item = el.querySelector('input, select');
+//       return {
+//         type : item.tagName,
+//         value : (v => caseInsensitive ? v.toLowerCase() : v)(item.value)
+//       };
+//     });
+//   table.querySelectorAll('tbody tr').forEach(tr => {
+//     let visible = [].slice.call(tr.querySelectorAll('td')).every((td, i) => {
+//       let text = (t => caseInsensitive ? t.toLowerCase() : t)(td.textContent.trim());
+//       if (terms[i].type === 'SELECT') {
+//        if (terms[i].value.toUpperCase() === 'ALL') return true;
+//        return terms[i].value === text;
+//       }
+//       return text != '' ? text.indexOf(terms[i].value) > -1 : true;
+//     });
+//     tr.classList.toggle('hidden-row', !visible);
+//   });
+// }
+
+// // https://stackoverflow.com/a/14234618/1762224
+// // Note: Modified as a recursive routine
+// function findParentBySelector(el, target) {
+//   return el != null ? el && ![].slice.call(typeof target === 'string' ? (target = document.querySelectorAll(target)) : target).some(c => c == el) ? findParentBySelector(el.parentNode, target) : el : null;
+// }
+//       function myFunction() {
+//         var table, tr, td, i, txtValue;
+//         var new_tr = [];
+//         countryInput = document.getElementById("countryInput");
+//         countryFilter = countryInput.value;
+
+//         table = document.getElementById("myTable");
+//         tr = table.getElementsByTagName("tr");
+
+//         brandInput = document.getElementById("brandInput");
+//         brandFilter = brandInput.value;
+
+//         typeFilter = typeInput.value;
+//         typeInput = document.getElementById("typeInput");
+
+//         packageFilter = packageInput.value;
+//         packageInput = document.getElementById("packageInput");
+
+//         completeInput = document.getElementById("completeInput");
+//         completeFilter = completeInput.value;
+
+//         for (i = 0; i < tr.length; i++) {
+//           tdCountry = tr[i].getElementsByTagName("td")[0];
+
+//         tdBrand = tr[i].getElementsByTagName("td")[1];
+//         tdType = tr[i].getElementsByTagName("td")[2];
+//         tdPackage = tr[i].getElementsByTagName("td")[3];
+//         tdRating = tr[i].getElementsByTagName("td")[4];
+//         tdComplete = tr[i].getElementsByTagName("td")[5];
+
+//           if (tdCountry) {
+//             txtValue = tdCountry.textContent || tdCountry.innerText;
+//             if (txtValue.indexOf(countryFilter) > -1) {
+//               tr[i].style.display = "";
+//               // new_tr.push(tr[i]);
+//             }
+            
+//             else if (tdComplete) {
+//               txtValue = tdComplete.textContent || tdComplete.innerText;
+//               if (txtValue.indexOf(completeFilter) > -1) {
+//                 tr[i].style.display = "";
+//               }
+
+
+
+//               else {
+//               tr[i].style.display = "none";
+//             }
+//           }
+//         }
+        //   if (tdBrand) {
+        //     txtValue = tdBrand.textContent || tdBrand.innerText;
+        //     // console.log(brandFilter);
+        //     // console.log(txtValue);
+        //     // console.log(txtValue.includes(brandFilter));
+        //     if (txtValue.includes(brandFilter)) {
+        //       console.log("Pass");
+        //       tr[i].style.display = "";
+        //     } else {
+        //       console.log("Fail");
+        //       tr[i].style.display = "none";
+        //     }
+        //   }
+        //   if (tdType) {
+        //     txtValue = tdType.textContent || tdType.innerText;
+        //     if (txtValue.indexOf(typeFilter) > -1) {
+        //       tr[i].style.display = "";
+        //     } else {
+        //       tr[i].style.display = "none";
+        //     }
+        //   }
+        //   if (tdPackage) {
+        //     txtValue = tdPackage.textContent || tdPackage.innerText;
+        //     if (txtValue.indexOf(packageFilter) > -1) {
+        //       tr[i].style.display = "";
+        //     } else {
+        //       tr[i].style.display = "none";
+        //     }
+        //   }
+     //  }
+    </script>
+  </body>
+</html>

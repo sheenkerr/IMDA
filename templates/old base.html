@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ramen reviews</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+  </head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    #brandInput {
+      /* background-image: url("/css/searchicon.png"); */
+      background-position: 10px 10px;
+      background-repeat: no-repeat;
+      width: 100%;
+      font-size: 16px;
+      padding: 12px 20px 12px 40px;
+      border: 1px solid #ddd;
+      margin-bottom: 12px;
+    }
+
+    #myTable {
+      border-collapse: collapse;
+      width: 100%;
+      border: 1px solid #ddd;
+      font-size: 18px;
+    }
+
+    #myTable th,
+    #myTable td {
+      text-align: left;
+      padding: 12px;
+    }
+
+    #myTable tr {
+      border-bottom: 1px solid #ddd;
+    }
+
+    #myTable tr.header,
+    #myTable tr:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
+  <body>
+    <h1 class="ui center aligned header">Ramen Reviews</h1>
+    <i class="fa fa-search"></i>
+
+    <select placeholder="Country" id="countryInput" onchange="myFunction()">
+      <option value="">All</option>
+      {% for country in country_list %}
+      <option value="{{country}}">{{country}}</option>
+      {% endfor %}
+    </select>
+    <input
+      type="text"
+      id="typeInput"
+      onkeyup="myFunction()"
+      placeholder="Search for type.."
+      title="Type in a type"
+    />
+    <input
+      type="text"
+      id="packageInput"
+      onkeyup="myFunction()"
+      placeholder="Search for package.."
+      title="Type in a package"
+    />
+    <input
+      type="text"
+      id="brandInput"
+      onkeyup="myFunction()"
+      placeholder="Search for Brand.."
+      title="Type in a Brand"
+    />
+    <select
+      placeholder="Completed Reviews?"
+      id="completeInput"
+      onchange="myFunction()"
+    >
+      <option value="">Both Completed & Uncompleted Reviews</option>
+      <option value="True">Completed Reviews Only</option>
+      <option value="False">Uncompleted Reviews Only</option>
+    </select>
+    <table id="myTable">
+      <tr class="header">
+        <th>Country</th>
+        <th>Brand</th>
+        <th>Type</th>
+        <th>Package</th>
+        <th>Rating</th>
+        <th>Complete?</th>
+        <th>Actions</th>
+      </tr>
+      {% for review in reviews_list %}
+      <tr>
+        <td>{{ review.Country }}</td>
+        <td>{{review.Brand }}</td>
+        <td>{{review.Type }}</td>
+        <td>{{review.Package }}</td>
+        <td>{{ review.Rating }}/5.0</td>
+        <td>{{ review.Complete }}</td>
+        <td>
+          <a class="ui blue button" href="/update/{{ review.ID }}">Update</a>
+          <a class="ui red button" href="/delete/{{ review.ID }}">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <script>
+      function myFunction() {
+        console.log("Reach")
+        var table, tr, td, i, txtValue;
+        var new_tr = [];
+        countryInput = document.getElementById("countryInput");
+        countryFilter = countryInput.value;
+
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        brandInput = document.getElementById("brandInput");
+        brandFilter = brandInput.value;
+
+        typeFilter = typeInput.value;
+        typeInput = document.getElementById("typeInput");
+
+        packageFilter = packageInput.value;
+        packageInput = document.getElementById("packageInput");
+
+        completeInput = document.getElementById("completeInput");
+        completeFilter = completeInput.value;
+
+        for (i = 0; i < tr.length; i++) {
+          tdCountry = tr[i].getElementsByTagName("td")[0];
+
+
+        tdBrand = tr[i].getElementsByTagName("td")[1];
+        tdType = tr[i].getElementsByTagName("td")[2];
+        tdPackage = tr[i].getElementsByTagName("td")[3];
+        tdRating = tr[i].getElementsByTagName("td")[4];
+        tdComplete = tr[i].getElementsByTagName("td")[5];
+
+          if (tdCountry) {
+            txtValue = tdCountry.textContent || tdCountry.innerText;
+            if (txtValue.indexOf(countryFilter) > -1) {
+              tr[i].style.display = "";
+              // new_tr.push(tr[i]);
+            }
+
+            else if (tdComplete) {
+              txtValue = tdComplete.textContent || tdComplete.innerText;
+              if (txtValue.indexOf(completeFilter) > -1) {
+                tr[i].style.display = "";
+              }
+
+
+
+              else {
+              tr[i].style.display = "none";
+            }
+          }
+        }}}
+        //   if (tdBrand) {
+        //     txtValue = tdBrand.textContent || tdBrand.innerText;
+        //     // console.log(brandFilter);
+        //     // console.log(txtValue);
+        //     // console.log(txtValue.includes(brandFilter));
+        //     if (txtValue.includes(brandFilter)) {
+        //       console.log("Pass");
+        //       tr[i].style.display = "";
+        //     } else {
+        //       console.log("Fail");
+        //       tr[i].style.display = "none";
+        //     }
+        //   }
+        //   if (tdType) {
+        //     txtValue = tdType.textContent || tdType.innerText;
+        //     if (txtValue.indexOf(typeFilter) > -1) {
+        //       tr[i].style.display = "";
+        //     } else {
+        //       tr[i].style.display = "none";
+        //     }
+        //   }
+        //   if (tdPackage) {
+        //     txtValue = tdPackage.textContent || tdPackage.innerText;
+        //     if (txtValue.indexOf(packageFilter) > -1) {
+        //       tr[i].style.display = "";
+        //     } else {
+        //       tr[i].style.display = "none";
+        //     }
+        //   }
+      // }
+    </script>
+  </body>
+</html>
